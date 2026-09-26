@@ -2,13 +2,8 @@ module.exports = {
     name: "interactionCreate",
 
     async execute(interaction, client) {
-
-        // Slash command
         if (interaction.isChatInputCommand()) {
-
-            const command = client.commands.get(
-                interaction.commandName
-            );
+            const command = client.commands.get(interaction.commandName);
 
             if (!command) return;
 
@@ -33,18 +28,12 @@ module.exports = {
             return;
         }
 
-        // Tombol Verify
         if (interaction.isButton()) {
-
             if (!interaction.customId.startsWith("verify_")) {
                 return;
             }
 
-            const roleId = interaction.customId.replace(
-                "verify_",
-                ""
-            );
-
+            const roleId = interaction.customId.replace("verify_", "");
             const role = interaction.guild.roles.cache.get(roleId);
 
             if (!role) {
@@ -62,21 +51,17 @@ module.exports = {
             }
 
             try {
-
                 await interaction.member.roles.add(role);
 
                 await interaction.reply({
                     content: `✅ Berhasil! Kamu mendapatkan role **${role.name}**.`,
                     ephemeral: true
                 });
-
             } catch (error) {
-
                 console.error(error);
 
                 await interaction.reply({
-                    content:
-                        "❌ Bot tidak bisa memberikan role tersebut. Pastikan role bot berada di atas role yang dipilih.",
+                    content: "❌ Bot tidak bisa memberikan role tersebut. Pastikan role bot berada di atas role yang dipilih.",
                     ephemeral: true
                 });
             }
